@@ -1,0 +1,134 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color:#fff;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    cursor: pointer;
+}
+
+#title-header {
+    position: absolute;  /* Positioned relative to the body */
+    top: 0;  /* Align it to the top */
+    left: 50%;  /* Move it to the center horizontally */
+    transform: translateX(-50%);  /* Correct the horizontal positioning by shifting it half of its width */
+    font-size: clamp(10px, 2.5vw, 8vh); /* Scales based on viewport width */
+    font-weight: 100;
+    user-select: none;
+    color: #fff;
+    text-align: center;  /* Ensure the text is centered inside the element */
+    z-index: 1001;  /* To ensure it stays above other content like the puzzle */
+    max-width: 100%; /* Ensures the title doesn't stretch beyond the screen */
+    padding-top: 10px; /* Adds some space around the title */
+    box-sizing: border-box; /* Prevents title from overlapping */
+}
+
+#menu {
+    position: relative;
+    list-style-type: none;
+    padding-left: 5px;
+    z-index: 1000;
+    display: inline-block;
+    text-align: center;
+}
+
+#menu li {
+    margin: 2px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    background-color: #ffff80;
+}
+
+#menu li:hover {
+    background-color: #ffDD60;
+}
+
+/* 4. Corner Button (Pause) */
+.corner-btn {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.2); border:none; color:inherit;
+  font-size: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 50px; 
+  font-weight: 300;
+}
+.corner-btn:hover {
+  background: rgba(0, 147, 255, 0.4);
+}
+
+/* 8. Pause Overlay */
+.hidden { display: none !important; }
+
+#pauseOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+}
+.pause-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(255,255,255,0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+.pause-menu h2 {
+  margin-bottom: 1rem;
+  font-weight: 300;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+.pause-menu .btn {
+  margin: 0.5rem 0;
+}
+
+#forPuzzle {
+    position: absolute;
+    width: 85vw;
+    height: 75vh;
+    top: 47%; /* Start positioning the puzzle from the middle */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position by half the element's size */
+    background-color: #ffffff38;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 5px; /* Set a constant margin between title and puzzle */
+}
+
+.polypiece {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+}
+
+.moving {
+    transition-property: top, left;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+}
+
+.gameCanvas {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+}
+
+#background {
+    position: fixed; inset: 0;
+    background: url('../images/background-1.jpg') center/cover no-repeat;
+    filter: blur(15px); 
+    z-index: -2;
+    animation: bgZoom 20s infinite;
+}
+
+@keyframes bgZoom {
+    0%, 100% { transform: scale(1.4); }
+    50% { transform: scale(1.8); }
+}
+
+#blue {
+    position: fixed; inset: 0;
+    background: rgba(0, 100, 189, 0.31); 
+    z-index: -1;
+}

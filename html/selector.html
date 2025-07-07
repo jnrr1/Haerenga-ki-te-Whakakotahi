@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="mi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Haerenga ki te Whakakotahi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../images/icon.ico">
+  <link rel="stylesheet" href="../css/selector.css">
+</head>
+<body>
+  <div id="background"></div>
+  <div id="blue"></div>
+  <div id="rkct-menu"></div>
+
+  <button id="backButton" class="corner-btn">Menu</button>
+
+  <main id="selector-container">
+    <h1 id="title" class="unselect">Haerenga ki te Whakakotahi</h1>
+    <h2 id="subtitle" class="unselect">Kōwhiri Taumata</h2>
+
+    <div id="difficulty-list">
+      <div class="difficulty-item easy">
+        <button class="btn easy" data-level="mama">Māmā</button>
+        <p class="btn-desc">9 ngā wāhanga pōhēhē</p>
+      </div>
+      <div class="difficulty-item medium">
+        <button class="btn medium" data-level="waenga">Waenga</button>
+        <p class="btn-desc">18 ngā wāhanga pōhēhē</p>
+      </div>
+      <div class="difficulty-item hard">
+        <button class="btn hard" data-level="uaua">Uaua</button>
+        <p class="btn-desc">27 ngā wāhanga pōhēhē</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Navigate back to home
+    document.getElementById('backButton')
+      .addEventListener('click', () => window.location.href = '../index.html');
+
+    // Handle difficulty selection
+    const diffButtons = Array.from(document.querySelectorAll('#difficulty-list .btn'));
+    diffButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const level = btn.dataset.level;
+        // Store chosen level
+        sessionStorage.setItem('puzzleLevel', level);
+        // Redirect to game with level query
+        window.location.href = `game.html?level=${encodeURIComponent(level)}`;
+      });
+    });
+  </script>
+
+</body>
+</html>
