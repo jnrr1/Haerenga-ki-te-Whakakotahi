@@ -1,0 +1,253 @@
+/* 1. Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { min-height: 100%;  
+  overflow-y: auto;  
+  overflow-x: hidden; 
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background:#000; color:#fff;
+  display:flex; justify-content:center; align-items:center;
+  text-align:center; font-weight: 300;
+}
+
+/* Titles */
+#game-container h1 {
+  font-weight: 100;
+  font-size: clamp(24px, 2vw, 64px);
+}
+
+#background {
+    position: fixed; inset: 0;
+    background: url('../images/background-1.jpg') center/cover no-repeat;
+    filter: blur(15px); 
+    z-index: -2;
+    animation: bgZoom 20s infinite;
+}
+
+@keyframes bgZoom {
+    0%, 100% { transform: scale(1.4); }
+    50% { transform: scale(1.8); }
+}
+
+#blue {
+    position: fixed; inset: 0;
+    background: rgba(0, 100, 189, 0.31); 
+    z-index: -1;
+}
+
+/* 3. RKCT Logo */
+#rkct-menu {
+  position: absolute; top: 20px; left: 20px;
+  width: 195px; height: 43px;
+  background: url('../images/rkct.png') center/cover no-repeat;
+  filter: invert(1);
+}
+
+/* 4. Corner Button (Pause) */
+.corner-btn {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.2); border:none; color:inherit;
+  font-size: clamp(0.875rem, 1.5vw, 1.25rem);
+  padding: 0.5rem 1rem; cursor: pointer; border-radius: 50px; 
+  font-weight: 300; z-index: 100;
+}
+.corner-btn:hover {
+  background: rgba(0, 147, 255, 0.4);
+}
+
+#title-header {
+    position: absolute;  /* Positioned relative to the body */
+    top: 0;  /* Align it to the top */
+    left: 50%;  /* Move it to the center horizontally */
+    transform: translateX(-50%);  /* Correct the horizontal positioning by shifting it half of its width */
+    font-size: clamp(10px, 3vw, 8vh); /* Scales based on viewport width */
+    font-weight: 100;
+    user-select: none;
+    color: #fff;
+    text-align: center;  /* Ensure the text is centered inside the element */
+    z-index: 1001;  /* To ensure it stays above other content like the puzzle */
+    max-width: 100%; /* Ensures the title doesn't stretch beyond the screen */
+    padding-top: 10px; /* Adds some space around the title */
+    box-sizing: border-box; /* Prevents title from overlapping */
+}
+
+/* 5. Main Game Layout */
+#gameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-height: 90vh;
+  gap: 1rem;
+  padding: 1rem;
+}h1 {
+  font-size: clamp(1.5rem, 4.5vw, 3rem);
+  font-weight: 100; 
+  user-select: none;
+}
+
+#forPuzzle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; 
+    width: 85vw;
+    height: 75vh;
+    /* top: 47%; /* Start positioning the puzzle from the middle */
+    /* left: 50%; /* Center horizontally */
+    /* transform: translate(-50%, -50%); /* Adjust position by half the element's size */
+    background-color: #ffffff38;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.polypiece {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+}
+
+.moving {
+    transition-property: top, left;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+}
+
+.gameCanvas {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+}
+
+/* 7. Controls: Time + Start */
+#game-controls {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.btn {
+  width: 300px;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+  user-select: none;
+}
+.btn:hover {
+  background: rgba(0,147,255,0.4);
+}
+
+.txt-only {
+  background: none; padding: 0;
+}
+
+#startButton {
+  min-width: 250px; /* Reduced from 300px */
+  font-size: clamp(1rem, 2vw, 1.8rem); /* Slightly smaller text */
+  padding: 0.5rem 1rem; /* Slightly less padding */
+  margin-top: 1rem;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* 8. Pause Overlay */
+.hidden { display: none !important; }
+
+#pauseOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+}
+.pause-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(255,255,255,0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+.pause-menu h2 {
+  margin-bottom: 1rem;
+  font-weight: 300;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+.pause-menu .btn {
+  background: rgba(255,255,255,0.2); border:none; color:inherit;
+  font-size: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 50px; 
+  font-weight: 300;
+}
+.pause-menu .btn:hover{
+  background: rgba(0, 147, 255, 0.4);
+}
+
+/* 9. High-Score Overlay */
+#highscoreOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.popup-menu {
+  display: flex;
+  background: rgba(255,255,255,0.1);
+  padding: 3rem;
+  border-radius: 12px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 90%;
+  width: 400px;
+}
+.popup-menu h2 {
+  font-weight: 300;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  margin: 0;
+}
+.popup-menu p {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  margin: 0;
+}
+.popup-menu input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.popup-menu .btn {
+  width: 100%;
+  max-width: 200px;
+  margin: 10px;
+  font-size: clamp(1rem, 2vw, 2rem);
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.popup-menu .btn:hover {
+  background: rgba(0,147,255,0.4);
+}
+
+@media (max-width: 1100px){
+  #rkct-menu {
+    top: 10px;
+    left: 10px;
+    width: 150px;
+    height: auto;
+  }
+}
