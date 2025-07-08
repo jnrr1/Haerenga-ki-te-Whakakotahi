@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Te Wairua Kanikani</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/icon.ico">
+  <link rel="stylesheet" href="css/selector.css">
+</head>
+<body>
+  <div id="background"></div>
+  <div id="blue"></div>
+  <div id="rkct-menu"></div>
+
+  <button id="backButton" class="corner-btn">Menu</button>
+
+  <main id="selector-container">
+    <h1 id="title" class="unselect">Te Wairua Kanikani</h1>
+    <h2 id="subtitle" class="unselect">Select a Dance</h2>
+
+    <div id="dance-list">
+      <div class="dance-item">
+        <button class="btn"
+                data-video="vid/Daf_Seated_Dance.mp4"
+                data-start="0"
+                data-dance="Seated Workout">
+          Seated Workout
+        </button>
+      </div>
+      <div class="dance-item">
+        <button class="btn"
+                data-video="vid/Daf_Standing_Dance.mp4"
+                data-start="0"
+                data-dance="Standing Workout">
+          Standing Workout
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll('#dance-list .btn'));
+
+    // Build the dance list once by reading the buttons
+    const dances = buttons.map(btn => ({
+      name:  btn.dataset.dance,
+      video: btn.dataset.video,
+      start: Number(btn.dataset.start) || 0
+    }));
+
+    // Save the master list
+    sessionStorage.setItem('danceList', JSON.stringify(dances));
+
+    // Hook up each button
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const { dance, video, start } = btn.dataset;
+
+        // Remember which dance was just played
+        sessionStorage.setItem('lastDancePlayed', dance);
+
+        // Go to the game page
+        const vp    = encodeURIComponent(video);
+        const st    = encodeURIComponent(start || 0);
+        window.location.href = `game.html?video=${vp}&start=${st}`;
+      });
+    });
+
+    // Back‐to‐Menu:
+    document.getElementById('backButton')
+      .addEventListener('click', () => window.location.href = 'index.html');
+
+  </script>
+
+
+</body>
+</html>
