@@ -54,7 +54,7 @@ body {
   filter: invert(1);
 }
 .corner-btn {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
   background: rgba(255, 255, 255, 0.2);
@@ -134,6 +134,16 @@ body {
   transform: translateY(-4px);
 }
 
+.difficulty-item.expert:hover {
+  background: rgba(128, 0, 128, 0.2); /* Purple */
+  transform: translateY(-4px);
+}
+
+.difficulty-item.master:hover {
+  background: rgba(255, 140, 0, 0.2); /* Orange */
+  transform: translateY(-4px);
+}
+
 /* Buttons - make them larger and easier to tap */
 .btn {
   width: 100%;
@@ -163,6 +173,15 @@ body {
 .btn.hard:hover {
   background: rgba(200, 0, 0, 0.4);
 }
+/* Easy button hover - green */
+.btn.expert:hover {
+  background: rgba(128, 0, 128, 0.4);
+}
+
+/* Medium button hover - blue */
+.btn.master:hover {
+  background: rgba(255, 140, 0, 0.4);
+}
 
 /* Button description - optional size increase */
 .btn-desc {
@@ -174,6 +193,12 @@ body {
 /* 8. Utility */
 .unselect {
   user-select: none;
+}
+
+@media screen and (max-width: 1050px){
+    #rkct-menu {
+    display: none;
+  }
 }
 
 /* 9. Responsive Adjustments */
@@ -202,7 +227,7 @@ body {
   }
 
   .difficulty-item {
-    width: 80%;              /* Make buttons wider when stacked */
+    width: 100%;              /* Make buttons wider when stacked */
     max-width: 400px;
     margin: 0 auto;          /* Center the buttons */
   }
