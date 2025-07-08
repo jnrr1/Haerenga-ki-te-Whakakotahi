@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="mi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,20 +17,28 @@
 
   <main id="selector-container">
     <h1 id="title" class="unselect">Haerenga ki te Whakakotahi</h1>
-    <h2 id="subtitle" class="unselect">Kōwhiri Taumata</h2>
+    <h2 id="subtitle" class="unselect">Choose Level</h2>
 
     <div id="difficulty-list">
       <div class="difficulty-item easy">
-        <button class="btn easy" data-level="mama">Māmā</button>
-        <p class="btn-desc">9 ngā wāhanga pōhēhē</p>
+        <button class="btn easy" data-level="Easy" data-pieces="12">Easy</button>
+        <p class="btn-desc">12 piece puzzle</p>
       </div>
       <div class="difficulty-item medium">
-        <button class="btn medium" data-level="waenga">Waenga</button>
-        <p class="btn-desc">18 ngā wāhanga pōhēhē</p>
+        <button class="btn medium" data-level="Medium" data-pieces="25">Medium</button>
+        <p class="btn-desc">25 piece puzzle</p>
       </div>
       <div class="difficulty-item hard">
-        <button class="btn hard" data-level="uaua">Uaua</button>
-        <p class="btn-desc">27 ngā wāhanga pōhēhē</p>
+        <button class="btn hard" data-level="Hard" data-pieces="50">Hard</button>
+        <p class="btn-desc">50 piece puzzle</p>
+      </div>
+      <div class="difficulty-item expert">
+        <button class="btn expert" data-level="Expert" data-pieces="100">Expert</button>
+        <p class="btn-desc">100 piece puzzle</p>
+      </div>
+      <div class="difficulty-item master">
+        <button class="btn master" data-level="Master" data-pieces="200">Master</button>
+        <p class="btn-desc">200 piece puzzle</p>
       </div>
     </div>
   </main>
@@ -42,6 +50,15 @@
 
     // Handle difficulty selection
     const diffButtons = Array.from(document.querySelectorAll('#difficulty-list .btn'));
+
+    // Build the dance list once by reading the buttons
+    const difficulties = diffButtons.map(btn => ({
+      name:  btn.dataset.level,
+      pieces: Number(btn.dataset.pieces)
+    }));
+    // Save the master list
+    sessionStorage.setItem('difficulty-list', JSON.stringify(difficulties));
+
     diffButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const level = btn.dataset.level;
