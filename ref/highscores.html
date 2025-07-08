@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Te Wairua Kanikani</title>
+  <link rel="icon" href="images/icon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/highscores.css" />
+</head>
+<body>
+
+  <!-- Background Layers -->
+  <div id="background"></div>
+  <div id="blue"></div>
+
+  <!-- RKCT logo and back button -->
+  <div id="rkct-menu"></div>
+  <button id="backButton" class="corner-btn">Menu</button>
+
+
+  <!-- Main content -->
+  <main id="highscores-container">
+    <h1 class="unselect">Leaderboard</h1>
+    <div id="dance-switcher" class="dance-switcher">
+     <!-- populated by JS -->
+   </div>
+    <!-- subheader for current dance -->
+    <h2 id="current-dance" class="unselect">Leaderboard</h2>
+
+    <div id="leaderboard-container">
+      <div id="leaderboard-list">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+  (function(){
+    // 1. Load dance list + last played
+    const dances = JSON.parse(sessionStorage.getItem('danceList')||'[]');
+    let current = sessionStorage.getItem('lastDancePlayed')
+                || (dances[0] && dances[0].name);
+
+    // 2. Build the switcher row
+    const switcher = document.getElementById('dance-switcher');
+    dances.forEach(d => {
+      const btn = document.createElement('button');
+      btn.className = 'dance-switch btn';
+      btn.textContent = d.name;
+      btn.dataset.dance = d.name;
+      btn.addEventListener('click', () => {
+        current = d.name;
+        sessionStorage.setItem('lastDancePlayed', current);
+        renderLeaderboard(current);
+      });
+      switcher.append(btn);
+    });
+
+    // 3. Helpers to load & pad to 5
+    function loadHighScoresFor(d) {
+      const all = JSON.parse(localStorage.getItem('highScores')||'{}');
+      return all[d] ? all[d].slice(0,5) : [];
+    }
+    function padToFive(list) {
+      const out = list.slice();
+      while(out.length < 5) {
+        out.push({ name: `Player ${out.length+1}`, score: 0 });
+      }
+      return out;
+    }
+
+    // 4. Render function
+    function renderLeaderboard(danceName) {
+      // heading
+      document.getElementById('current-dance')
+              .textContent = `${danceName} — Leaderboard`;
+
+      // build rows
+      const list = padToFive(loadHighScoresFor(danceName));
+      const container = document.getElementById('leaderboard-list');
+      container.innerHTML = '';
+      list.forEach((e,i) => {
+        const row = document.createElement('div');
+        row.className = (i===0 ? 'first-class'
+                       : i===1 ? 'second-class'
+                       : i===2 ? 'third-class'
+                       : 'score-container');
+        row.innerHTML = `
+          <span class="score-number">${i+1}.</span>
+          <span class="score-name">${e.name}</span>
+          <span class="score-score">${e.score}</span>
+        `;
+        container.append(row);
+      });
+    }
+
+    // 5. Initial render
+    if (current) renderLeaderboard(current);
+
+    // 6. Back button
+    document.getElementById('backButton')
+            .onclick = () => window.location.href = 'index.html';
+  })();
+  </script>
+
+</body>
+</html>
