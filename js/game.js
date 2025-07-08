@@ -1,3 +1,6 @@
+// Code snippet forked from “Pen Title” by Dillo (https://codepen.io/Dillo/pen/QWKLYab)
+// Licensed under MIT License — copyright © YEAR by Dillo
+    
     "use strict";
 
     let puzzle, autoStart;
@@ -19,15 +22,21 @@
     const level = urlParams.get('level') || 'Easy';
 
     let totalPieces = 12; // default
+    let image = "../images/Best Awards - Colour Botanical 1.jpg"
+
 
     if (level === 'Medium') {
         totalPieces = 25;
+        image = "../images/background-1.jpg"
     } else if (level === 'Hard') {
         totalPieces = 50;
+        image = "../images/background-3.jpg"
     } else if (level === 'Expert') {
         totalPieces = 100;
+        image = "../images/background-4.jpg"
     } else if (level === 'Master') {
         totalPieces = 200;
+        image = "../images/Best Awards - Colour Botanical 1.jpg"
     }
 
     // ——————————————————————————————————————————————
@@ -1184,7 +1193,7 @@
     } //  // scope for loadFile
 
     function loadInitialFile() {
-      puzzle.srcImage.src = "../images/background-1.jpg";
+      puzzle.srcImage.src = image;
     }
     //-----------------------------------------------------------------------------
     function imageLoaded(puzzle) {
