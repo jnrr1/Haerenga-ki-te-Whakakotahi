@@ -39,14 +39,6 @@
         image = "../images/Best Awards - Colour Botanical 1.jpg"
     }
 
-    // ——————————————————————————————————————————————
-    // 1. IMPORT MediaPipe (ES module)
-    // ——————————————————————————————————————————————
-    import { FilesetResolver, PoseLandmarker } from
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/vision_bundle.js";
-
-
-
     //-----------------------------------------------------------------------------
     function isMiniature() {
       return location.pathname.includes('/fullcpgrid/');
@@ -1670,6 +1662,48 @@
     });
 
     puzzle = new Puzzle({ container: "forPuzzle" });
+
+    // ——————————————————————————————————————————————
+    // 1. IMPORT MediaPipe (ES module)
+    // ——————————————————————————————————————————————
+    import { FilesetResolver, HandLandmarker } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/vision_bundle.js";
+
+    // Initialize webcam
+    const videoElement = document.createElement('video');
+    videoElement.autoplay = true;
+    videoElement.playsInline = true;
+    videoElement.style.display = 'none';
+    document.body.appendChild(videoElement);
+
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      videoElement.srcObject = stream;
+    });
+
+    // Load MediaPipe HandLandmarker
+    const vision = await FilesetResolver.forVisionTasks(
+      'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm'
+    );
+
+    const handLandmarker = await HandLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/hand_landmarker.task'
+      },
+      runningMode: 'VIDEO',
+      numHands: 1
+    });
+
+    // Start detection loop
+    function detectHands() {
+      const results = handLandmarker.detectForVideo(videoElement, performance.now());
+      if (results.landmarks.length > 0) {
+        const hand = results.landmarks[0];
+        handleHandGesture(hand);
+      }
+      requestAnimationFrame(detectHands);
+    }
+    detectHands();
+
+
     autoStart = isMiniature(); // used for nice miniature in CodePen
 
     loadInitialFile();
